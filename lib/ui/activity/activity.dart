@@ -38,7 +38,7 @@ class ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 0),
+      padding: EdgeInsets.only(top: 13),
       child: Column(
         children: <Widget>[
           ListTile(
@@ -46,7 +46,8 @@ class ListItem extends StatelessWidget {
               "Anda belum mengambil sampah hari ini",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Text("Surya Citra Residence G-21 Tropodo Sidoarjo"),
+            subtitle: Text("Aradhana Luqman\nSurya Citra Residence G-21 Tropodo Sidoarjo"),
+            trailing: Text("25/04/21", style: TextStyle(color: Colors.grey),),
           ),
         ],
       ),

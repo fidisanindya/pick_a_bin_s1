@@ -1,34 +1,80 @@
-import 'package:boilerplate/ui/schedule/list_done.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:boilerplate/models/UserJadwal.dart';
 import 'package:flutter/material.dart';
 
-class SchedulePage extends StatelessWidget {
-  const SchedulePage({Key? key}) : super(key: key);
+class SchedulePage extends StatefulWidget {
+  @override
+  _SchedulePageState createState() => _SchedulePageState();
+}
 
+class _SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Jadwal Hari Ini',
-            style: TextStyle(color: Color(0xff00783E)),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: ListView.separated(
+          separatorBuilder: (context, index) => const Divider(
+            color: Colors.black,
           ),
-          backgroundColor: Colors.transparent,
-          elevation: 0),
-      body: Center(
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.green,
-          ),
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => ListDonePage()));
+          itemBuilder: (context, index) {
+            final UserJadwal jadwal = userJadwalList[index];
+            return InkWell(
+              child: listItem(jadwal),
+            );
           },
-          child: const Text(
-            'List Done', style: TextStyle(color: Colors.white),
-          ),
+          itemCount: userJadwalList.length,
         ),
+      ),
+    );
+  }
+
+  Widget listItem(UserJadwal jadwal) {
+    return Container(
+      height: 70,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30.0, top: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    jadwal.name,
+                    style: const TextStyle(
+                        fontSize: 16.0, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    jadwal.location,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 30, top: 10),
+            child: Checkbox(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              side: const BorderSide(color: Colors.grey),
+              activeColor: const Color(0xff00783E),
+              checkColor: Colors.white,
+              value: jadwal.value,
+              onChanged: (newValue) {
+                setState(() {
+                  jadwal.value = newValue;
+                });
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

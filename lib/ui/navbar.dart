@@ -2,6 +2,7 @@ import 'package:boilerplate/ui/activity/activity.dart';
 import 'package:boilerplate/ui/home/home.dart';
 import 'package:boilerplate/ui/profile/profile.dart';
 import 'package:boilerplate/ui/schedule/list_schedule.dart';
+import 'package:boilerplate/ui/schedule/tab_bar.dart';
 import 'package:flutter/material.dart';
 
 class Navbar extends StatefulWidget {
@@ -14,7 +15,7 @@ class _NavbarState extends State<Navbar> {
 
   final _pageOptions = [
     HomePage(),
-    SchedulePage(),
+    StackOver(),
     ActivityPage(),
     ProfilePage(),
   ];
@@ -31,7 +32,7 @@ class _NavbarState extends State<Navbar> {
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.home_outlined),
               label: 'Home',
             ),
             BottomNavigationBarItem(
