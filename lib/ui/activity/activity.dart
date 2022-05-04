@@ -31,26 +31,26 @@ class ActivityPage extends StatelessWidget {
 }
 
 class ListItem extends StatelessWidget {
-
-
   const ListItem({Key? key, required Text title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 13),
-      child: Column(
+    return Column(
         children: <Widget>[
-          ListTile(
-            title: Text(
-              "Anda belum mengambil sampah hari ini",
-              style: TextStyle(fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: ListTile(
+              title: Text(
+                "Anda belum mengambil sampah",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text("Aradhana Luqman\nSurya Citra Residence G-21 Tropodo"),
+              trailing: Text("25/04/22",
+                style: TextStyle(color: Colors.grey)),
             ),
-            subtitle: Text("Aradhana Luqman\nSurya Citra Residence G-21 Tropodo Sidoarjo"),
-            trailing: Text("25/04/21", style: TextStyle(color: Colors.grey),),
           ),
+          Divider(color: Colors.black)
         ],
-      ),
-    );
+      );
   }
 }

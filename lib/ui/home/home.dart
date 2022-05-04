@@ -1,5 +1,7 @@
 import 'package:boilerplate/ui/home/list_contact.dart';
 import 'package:boilerplate/ui/schedule/list_schedule.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isChecked = false;
+  final ref = FirebaseDatabase.instance.ref().child('jadwal');
 
   @override
   Widget build(BuildContext context) {
@@ -115,58 +118,28 @@ class _HomePageState extends State<HomePage> {
                 child: const Text(
                   "Jadwal Terbaru",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                )),
-            Column(
-              children: <Widget>[
-                CheckboxListTile(
-                  title: const Text(
-                    "Fidisa Anindya",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: const Text("Surabaya, Jawa Timur, Indonesia"),
-                  secondary: const CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/ex.jpg")
-                  ),
-                  autofocus: false,
-                  activeColor: Colors.green,
-                  checkColor: Colors.white,
-                  selected: isChecked,
-                  value: isChecked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked = value!;
-                    });
-                  },
-                ),
-              ],
+                )
             ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 30),
-              child: Column(
+            FirebaseAnimatedList(
+              shrinkWrap: true,
+            query: ref.limitToLast(2),
+            itemBuilder: (BuildContext context, DataSnapshot snapshot, Animation<double> animation, int index) {
+              return Column(
                 children: <Widget>[
-                  CheckboxListTile(
-                    title: const Text(
-                      "Fidisa Anindya",
+                  ListTile(
+                    title: Text(
+                      snapshot.child('nama').value.toString(),
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    subtitle: const Text("Surabaya, Jawa Timur, Indonesia"),
-                    secondary: const CircleAvatar(
-                      backgroundImage:AssetImage("assets/images/ex.jpg")
+                    subtitle: Text(snapshot.child('alamat').value.toString()),
+                    leading: const CircleAvatar(
+                        backgroundImage: AssetImage("assets/images/ex.jpg")
                     ),
-                    autofocus: false,
-                    activeColor: Colors.green,
-                    checkColor: Colors.white,
-                    selected: isChecked,
-                    value: isChecked,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        isChecked = value!;
-                      });
-                    },
                   ),
                 ],
-              ),
-            ),
+              );
+            }
+            )
           ],
         ),
       ),

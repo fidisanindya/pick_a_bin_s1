@@ -25,11 +25,8 @@ class _NavbarState extends State<Navbar> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: _pageOptions[selectedPage],
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.white70,
-        ),
-        child: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
@@ -58,7 +55,6 @@ class _NavbarState extends State<Navbar> {
             });
           },
         ),
-      ),
     );
   }
 }

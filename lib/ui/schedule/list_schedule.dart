@@ -1,4 +1,7 @@
 import 'package:boilerplate/models/UserJadwal.dart';
+import 'package:boilerplate/models/schedule/list_schedule.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -7,75 +10,46 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
+  final ref = FirebaseDatabase.instance.ref().child('jadwal').orderByChild('status').equalTo(false);
+  // bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: ListView.separated(
-          separatorBuilder: (context, index) => const Divider(
-            color: Colors.black,
-          ),
-          itemBuilder: (context, index) {
-            final UserJadwal jadwal = userJadwalList[index];
-            return InkWell(
-              child: listItem(jadwal),
-            );
-          },
-          itemCount: userJadwalList.length,
+        body: FirebaseAnimatedList(
+            query: ref,
+            itemBuilder: (BuildContext context, DataSnapshot snapshot, Animation<double> animation, int index) {
+              bool isChecked = snapshot.child('status').value as bool;
+              return InkWell(
+                child: Column(
+                  children: <Widget>[
+                    CheckboxListTile(
+                      title: Text(
+                        snapshot.child('nama').value.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(snapshot.child('alamat').value.toString()),
+                      activeColor: Colors.green,
+                      checkColor: Colors.white,
+                      value: isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked = value!;
+                          var key = snapshot.key;
+                          DatabaseReference up = FirebaseDatabase.instance.ref("jadwal/$key");
+                          up.update({
+                            "status": true,
+                          });
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              );
+            }
         ),
-      ),
-    );
-  }
-
-  Widget listItem(UserJadwal jadwal) {
-    return Container(
-      height: 70,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30.0, top: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    jadwal.name,
-                    style: const TextStyle(
-                        fontSize: 16.0, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    jadwal.location,
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 30, top: 10),
-            child: Checkbox(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              side: const BorderSide(color: Colors.grey),
-              activeColor: const Color(0xff00783E),
-              checkColor: Colors.white,
-              value: jadwal.value,
-              onChanged: (newValue) {
-                setState(() {
-                  jadwal.value = newValue;
-                });
-              },
-            ),
-          ),
-        ],
-      ),
+      )
     );
   }
 }
