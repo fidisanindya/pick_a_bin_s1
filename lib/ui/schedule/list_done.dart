@@ -27,9 +27,20 @@ class ListDonePage extends StatelessWidget {
                       leading: CircleAvatar(
                         backgroundImage: AssetImage("assets/images/ex.jpg"),
                       ),
-                      trailing: new Column(
+                      trailing: new Wrap(
                         children: <Widget>[
                           new Container(
+                            child: new IconButton(
+                              icon: new Icon(Icons.highlight_off, color: Colors.orange),
+                              onPressed: () {
+                                var key = snapshot.key;
+                                DatabaseReference up = FirebaseDatabase.instance.ref("jadwal/$key");
+                                up.update({
+                                  "status": false,
+                                });
+                              },
+                            ),
+                          ),new Container(
                             child: new IconButton(
                               icon: new Icon(Icons.chat_outlined, color: Colors.green),
                               onPressed: () {

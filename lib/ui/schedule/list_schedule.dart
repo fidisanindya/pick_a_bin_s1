@@ -32,17 +32,19 @@ class _SchedulePageState extends State<SchedulePage> {
                       subtitle: Text(snapshot.child('alamat').value.toString()),
                       activeColor: Colors.green,
                       checkColor: Colors.white,
+                      selected: isChecked,
                       value: isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value!;
+                        onChanged: (bool? value) async {
+                          setState(() {
+                            isChecked = value!;
+                          });
+                          // await new Future.delayed(const Duration(seconds: 2));
                           var key = snapshot.key;
                           DatabaseReference up = FirebaseDatabase.instance.ref("jadwal/$key");
                           up.update({
                             "status": true,
                           });
-                        });
-                      },
+                        }
                     ),
                   ],
                 ),

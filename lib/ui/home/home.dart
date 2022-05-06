@@ -1,4 +1,5 @@
 import 'package:boilerplate/ui/home/list_contact.dart';
+import 'package:boilerplate/ui/navbar.dart';
 import 'package:boilerplate/ui/schedule/list_schedule.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     InkWell(
                       onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => SchedulePage()));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar()));
                       },
                       child: Container(
                         child: const Padding(
